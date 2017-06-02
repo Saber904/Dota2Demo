@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.eleven.dota2demo.Dota2Service;
 import com.eleven.dota2demo.R;
+import com.eleven.dota2demo.data.GetHeroesResult;
 import com.eleven.dota2demo.herodetail.HeroDetailActivity;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -74,14 +75,14 @@ public class HerosListActivity extends AppCompatActivity {
                 try {
                     Gson gson = new Gson();
                     JsonObject jsonObject = gson.fromJson(response.body().string(), JsonObject.class);
-                    HeroNamesWrapper heroNamesWrapper = gson.fromJson(jsonObject.get("result"), HeroNamesWrapper.class);
-                    Log.i(TAG, heroNamesWrapper.count);
-                    List<HeroNamesWrapper.Hero> heroes = heroNamesWrapper.heroes;
+                    GetHeroesResult getHeroesResult = gson.fromJson(jsonObject.get("result"), GetHeroesResult.class);
+                    Log.i(TAG, getHeroesResult.count);
+                    List<GetHeroesResult.HeroNameWrapper> heroes = getHeroesResult.heroes;
                     List<String> heroCNNames = new ArrayList<>(heroes.size());//可用rxjava重写
                     List<String> heroENNames = new ArrayList<>(heroes.size());
-                    for(HeroNamesWrapper.Hero hero : heroes) {
-                        heroCNNames.add(hero.localized_name);
-                        heroENNames.add(hero.name.replace("npc_dota_hero_", ""));
+                    for(GetHeroesResult.HeroNameWrapper heroNameWrapper : heroes) {
+                        heroCNNames.add(heroNameWrapper.localized_name);
+                        heroENNames.add(heroNameWrapper.name.replace("npc_dota_hero_", ""));
                     }
                     mHeroesAdapter.setHeroesDisplayNameList(heroCNNames);
                     mHeroesAdapter.setHeroesEnglishNameList(heroENNames);

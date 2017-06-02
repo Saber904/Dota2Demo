@@ -17,12 +17,15 @@ public interface Dota2Service {
     @GET("GetHeroes/v0001/")
     Call<ResponseBody> getHeroes(@Query("key") String key, @Query("language") String language);
 
-    @GET("http://www.dota2.com/jsfeed/heropickerdata?l=chinese")
+    @GET("http://www.dota2.com/jsfeed/heropickerdata/?l=chinese")
     Call<ResponseBody> getHeropickerdata();
 
-    @GET("http://www.dota2.com/jsfeed/abilitydata?l=chinese")
+    @GET("http://www.dota2.com/jsfeed/abilitydata/?l=chinese")
     Call<ResponseBody> getAbilitydata();
 
+    @GET("http://http://www.dota2.com/jsfeed/heropediadata?feeds=herodata&l=chinese")
+    Call<ResponseBody> getHeroData();
+
 //    @GET("GetHeroes/v0001/")
-//    Call<List<HeroNamesWrapper>> getHeroes(@Query("key") String key, @Query("language") String language);
+//    Call<List<GetHeroesResult>> getHeroes(@Query("key") String key, @Query("language") String language);
 }

@@ -111,14 +111,14 @@ public class HeroDetailRepository {
                 final Map<String, HeroDetail> heroDetails = new LinkedHashMap<>();
                 Retrofit retrofit = new Retrofit.Builder().baseUrl("https://api.steampowered.com/IEconDOTA2_570/").addConverterFactory(GsonConverterFactory.create()).build();
                 Dota2Service service = retrofit.create(Dota2Service.class);
-                Call<ResponseBody> heropickerCall = service.getHeropickerdata();
+                Call<ResponseBody> heroDataCall = service.getHeroData();
                 Call<ResponseBody> abilityCall = service.getAbilitydata();
                 try {
-                    Response<ResponseBody> heroResponse = heropickerCall.execute();
+                    Response<ResponseBody> heroResponse = heroDataCall.execute();
                     Response<ResponseBody> abilityResponse = abilityCall.execute();
                     try {
                         Gson gson = new Gson();
-                        JsonObject heroJsonObject = new JsonParser().parse(heroResponse.body().string()).getAsJsonObject();
+                        JsonObject heroJsonObject = new JsonParser().parse(heroResponse.body().string()).getAsJsonObject().getAsJsonObject("herodata");
                         Set<Map.Entry<String, JsonElement>> heroJsonSet = heroJsonObject.entrySet();
 
                         JsonObject abilityJsonObject = new JsonParser().parse(abilityResponse.body().string()).getAsJsonObject().getAsJsonObject("abilitydata");
@@ -172,7 +172,7 @@ public class HeroDetailRepository {
                     e.printStackTrace();
                 }
 
-//                heropickerCall.enqueue(new Callback<ResponseBody>() {
+//                heroDataCall.enqueue(new Callback<ResponseBody>() {
 //                    @Override
 //                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 //                        try {
